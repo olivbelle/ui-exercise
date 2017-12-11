@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>index</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+
+
+<link rel="stylesheet" href="test.css" type="text/css" media="all" />
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+<script src="test.js"></script>
+
+</head>
+<body>
+
+    <header>
+        <div class="container">
+              <nav role='navigation' class="topbar">
+                <a class="toggle" href="#">&#9776; Menu</a>
+                    <ul class="nav">
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="/about">About</a>
+                        </li>
+                        <li>
+                            <a href="/blog">Blog</a>
+                        </li>
+                    </ul>
+              </nav>
+        </div>
+    </header>
+    
+    <main>
+       <section>
+           <div class="container">
+                <div class="sidebar">
+               </div>
+               <div class="content">
+               </div>
+           </div> 
+       </section>
+    </main>
+    
+	<footer>
+        <div class="container">
+            <div class="footer-content">
+                 <p>© 2017 Greg Twardochleb Task</p>
+            </div>
+        </div>
+    </footer>
+
+		
+<script>
+    (function($) {
+
+    var $event = $.event,
+        $special,
+        resizeTimeout;
+
+    $special = $event.special.debouncedresize = {
+        setup: function() {
+            $(this).on("resize", $special.handler);
+        },
+        teardown: function() {
+            $(this).off("resize", $special.handler);
+        },
+        handler: function(event, execAsap) {
+            // Save the context
+            var context = this,
+                args = arguments,
+                dispatch = function() {
+                    // set correct event type
+                    event.type = "debouncedresize";
+                    $event.dispatch.apply(context, args);
+                };
+
+            if (resizeTimeout) {
+                clearTimeout(resizeTimeout);
+            }
+
+            execAsap ?
+                dispatch() :
+                resizeTimeout = setTimeout(dispatch, $special.threshold);
+        },
+        threshold: 150
+    };
+
+})(jQuery);
+
+var ww = $(window).width(); // window width
+var bpo = 678; // breaking point
+var tot = $('.topbar .toggle'); // topbar toggle button
+var nav = $('.nav'); // root ul navigation
+
+// toggle topbar
+tot.click(function(ev) {
+    ev.preventDefault();
+    nav.slideToggle()
+});
+
+// if mobile
+if (!!('ontouchstart' in window)) {
+    clickOn();
+} else {
+    $(window).on("debouncedresize", function(event) {
+        ww = $(window).width(); // reset ww
+        if (ww > bpo) {
+            clickOff();
+        } else {
+            clickOn();
+        };
+    });
+};
+
+function clickOn() {
+    nav.hide();
+    ddl.css('display', 'none');
+    tot.next().css('display', 'none');
+
+    var ev = $._data(ddt[0], 'events');
+    if (ev && ev.click) {
+
+    } else {
+        ddt.click(function(ev) {
+            ev.preventDefault();
+            $(this).next().slideToggle();
+            $(this).parent().siblings().children().next().slideUp();
+            return false;
+        });
+    }
+    return false;
+}
+
+function clickOff() {
+    nav.show();
+    ddl.removeAttr('style');
+    ddt.off('click');
+    return false;
+}
+</script>
+
+	
+</body>	
+</html>
